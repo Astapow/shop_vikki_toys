@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% block title %}Details{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">{{ object.name }}</h3>
+                    </div>
+                    <div class="card-body">
+                    {% if object.image %}
+                        <img src="{{ object.image.url }}" class="img-fluid mx-auto d-block mb-4"
+                             alt="{{ object.name }}">
+                    {% endif %}
+                        <p>Опис: {{ object.description }}</p>
+                        <p>Ціна: {{ object.price }} грн</p>
+                        <p>Кол-во: {{ object.amount }}</p>
+                        <p>Доставка: {{ object.delivery }}</p>
+                        {% if object.availability %}
+                            <p class="text-success">В наявності</p>
+                        {% else %}
+                            <p class="text-danger">Под заказ</p>
+                        {% endif %}
+                        <form method="post" action="{% url 'buy_toys' product.pk %}">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary">Купить</button>
+                            {% if user.is_superuser %}
+                                <a href="{% url 'update' product.id %}" class="btn btn-primary">Обновить</a>
+                                <a href="{% url 'delite' product.id %}" class="btn btn-primary">Удалить</a>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

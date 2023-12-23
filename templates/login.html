@@ -1,0 +1,75 @@
+{% extends "index.html" %}
+{% block title %}Log-In{% endblock %}
+
+{% block content %}
+    <style>
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-form {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .login-form h1 {
+            text-align: center;
+        }
+
+        .login-form form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-form input[type="submit"] {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .login-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .login-form .alert-danger {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+
+    <div class="container">
+        <div class="login-form">
+            <h1>Вхід</h1>
+            <br>
+            <span>Бажаєте реєструватися? <a href="{% url 'registration' %}">Регестрація</a></span>
+            <form class="form-control form-control-lg" method="post">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Oops!</strong> There was an error. Please check your credentials and try again.
+                    </div>
+                {% endif %}
+
+                {{ form.as_p }}
+
+                <input type="hidden" name="next">
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+{% endblock %}

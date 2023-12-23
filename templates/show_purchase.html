@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% block title %}Show Purchase{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1>Список заказов</h1>
+                <ul class="list-group">
+                    {% for purchase in purchases %}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    {% if purchase.product.image %}
+                                        <img src="{{ purchase.product.image.url }}" alt="{{ purchase.product.name }}"
+                                             class="img-fluid">
+                                    {% else %}
+                                        <p>No image available</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-9">
+                                    <h5>{{ purchase.product.name }}</h5>
+                                    <p>Кол-во: {{ purchase.amount }}</p>
+                                    <p>Ціна за 1шт: {{ purchase.product.price }} грн</p>
+                                    <p>До сплати: {{ purchase.total_cost }} грн</p>
+                                    {% if purchase.stripe_text %}
+                                        <p>Текст нашивки: {{ purchase.stripe_text }}</p>
+                                    {% endif %}
+                                    <p>Куплено: {{ purchase.buy_at }}</p>
+                                    <p>Покупатель: {{ purchase.buyer }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Покупок немає</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
